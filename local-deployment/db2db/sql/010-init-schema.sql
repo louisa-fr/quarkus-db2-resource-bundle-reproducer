@@ -1,0 +1,7 @@
+
+CREATE TABLE SAMPLE_TABLE (
+                     ID DECIMAL(8,0) NOT NULL,
+                     DUMMY_TEXT VARCHAr(20) NOT NULL
+                    
+);
+CREATE UNIQUE INDEX ID_KEY ON SAMPLE_TABLE(ID);

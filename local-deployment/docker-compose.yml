@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  db2db:
+    #TODO: image ? 
+    image: "ibmcom/db2:11.5.7.0"
+    privileged: true
+    environment:
+      - "LICENSE=accept"
+      - "DB2INSTANCE=anna"
+      - "DB2INST1_PASSWORD=321drowssaP"
+      - "DBNAME=DB_NAME"
+    ports:
+      - "10300:50000"
+    volumes:
+      - "${COMPOSE_REMOTE_PATH:-.}/db2db:/opt/db2-custom-setup:ro"
+    entrypoint:
+      - "/bin/bash"
+      - "-euo"
+      - "pipefail"
+      - "/opt/db2-custom-setup/entrypoint.sh"

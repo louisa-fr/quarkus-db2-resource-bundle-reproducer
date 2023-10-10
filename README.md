@@ -2,18 +2,17 @@
    - cd local-deployment
    - docker-compose up 
 2. run mvn -Pnative package [mandrel version 22.0]
-3. ./target/reproducer-resource-bundle-1.0-SNAPSHOT-runner
+3. execute ./target/reproducer-resource-bundle-1.0-SNAPSHOT-runner
 
-Expected Error: 
+At first, there will maybe be exceptions because of the missing db2 license (e.g. db2 errorcode -4472). 
 
-: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
-at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84)
-at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:378)
-at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:434)
-at de.reproducer.ReproducerMain.run(ReproducerMain.java:22)
-at de.reproducer.ReproducerMain_ClientProxy.run(Unknown Source)
-at io.quarkus.runtime.ApplicationLifecycleManager.run(ApplicationLifecycleManager.java:132)
-at io.quarkus.runtime.Quarkus.run(Quarkus.java:71)
-at io.quarkus.runtime.Quarkus.run(Quarkus.java:44)
-at de.reproducer.ReproducerMain.main(ReproducerMain.java:18)
-Caused by: com.ibm.db2.jcc.am.SqlException: [jcc]Missing resource bundle: A resource bundle could not be found in the com.ibm.db2.jcc package for IBM Data Server Driver for JDBC and SQLJ ERRORCODE=-4472, SQLSTATE=null
+Expected logs once the license problems have been solved: 
+
+```
+WARN: Datasource 'DB2DB': [jcc]Missing resource bundle: A resource bundle could not be found in the com.ibm.db2.jcc package for IBM Data Server Driver for JDBC and SQLJ ERRORCODE=-4201, SQLSTATE=2D521
+```
+
+```
+WARN: ARJUNA016045: attempted rollback of < formatId=131077, gtrid_length=35, bqual_length=36, tx_uid=0:ffff7f000101:cbed:652644ec:16, node_name=quarkus, branch_uid=0:ffff7f000101:cbed:652644ec:18, subordinatenodename=null, eis_name=0 > (io.agroal.narayana.BaseXAResource@42665326) failed with exception code ARJUNA016099: Unknown error code:0
+: javax.transaction.xa.XAException: Error trying to end xa transaction: [jcc]Missing resource bundle: A resource bundle could not be found in the com.ibm.db2.jcc package for IBM Data Server Driver for JDBC and SQLJ ERRORCODE=-4228, SQLSTATE=null
+```

@@ -1,8 +1,7 @@
 version: "3.9"
 services:
   db2db:
-    #TODO: image ? 
-    image: "ibmcom/db2:11.5.7.0"
+    image: "ibmcom/db2:11.5.8.0"
     privileged: true
     environment:
       - "LICENSE=accept"
